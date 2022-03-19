@@ -100,7 +100,7 @@ function setup() {
     }
 
     // Get random current point and random "previous" point
-    current = [random(-width, width), random(-height, height)];
+    current = [width / 2, height / 2];
     previous = points[Math.floor(Math.random() * points.length)];
     previousPrevious = previous;
 }
