@@ -153,3 +153,5 @@ function draw() {
         point(current[X], current[Y]);
     }
 }
+
+// https://en.wikipedia.org/wiki/Chaos_game
