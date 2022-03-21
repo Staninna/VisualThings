@@ -21,6 +21,9 @@
             defer
         ></script>
 
+        <!-- Styles links -->
+        <link rel="stylesheet" href="./styles.css" />
+
         <!-- Title and more -->
         <title>Flocking Simulation</title>
         <meta name="author" content="Staninna, https://github.com/staninna" />
@@ -29,5 +32,94 @@
             content="A fun visualization of the boid algorithm from Craig Reynolds"
         />
     </head>
-    <body style="background-color: black"></body>
+    <body style="background-color: white">
+        <div id="simulationContainer">
+            <div id="boidBuilder">
+                <p class="optionName">Forge</p>
+                <input
+                    class="slider"
+                    id="globalForge1"
+                    type="range"
+                    min="0"
+                    max="1"
+                    value="0.2"
+                    step="0.1"
+                />
+                <input class="manualInput" type="number" id="globalForge2" />
+                <p class="optionValue">value</p>
+                <p class="optionName">Speed</p>
+                <input
+                    class="slider"
+                    id="globalSpeed1"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value="2.0"
+                    step="0.1"
+                />
+                <input class="manualInput" type="number" id="globalSpeed2" />
+                <p class="optionValue">value</p>
+                <p class="optionName">Align sight</p>
+                <input
+                    class="slider"
+                    id="globalalignSight1"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                    step="1"
+                />
+                <input
+                    typeclass="manualInput"
+                    ="number"
+                    id="globalalignSight2"
+                />
+                <p class="optionValue">value</p>
+                <p class="optionName">Cohesion sight</p>
+                <input
+                    class="slider"
+                    id="globalcohesionSight1"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                    step="1"
+                />
+                <input
+                    typeclass="manualInput"
+                    ="number"
+                    id="globalcohesionSight2"
+                />
+                <p class="optionValue">value</p>
+                <p class="optionName">separation sight</p>
+                <input
+                    class="slider"
+                    id="globalseparationSight1"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value="50"
+                    step="1"
+                />
+                <input
+                    typeclass="manualInput"
+                    ="number"
+                    id="globalseparationSight2"
+                />
+                <p class="optionValue">value</p>
+                <p class="optionName">Size</p>
+                <input
+                    class="slider"
+                    id="globalSize1"
+                    type="range"
+                    min="2"
+                    max="10"
+                    value="6"
+                    step="1"
+                />
+                <input class="manualInput" type="number" id="globalSize2" />
+                <p class="optionValue">value</p>
+            </div>
+        </div>
+    </body>
 </html>

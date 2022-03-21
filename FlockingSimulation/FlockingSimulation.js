@@ -18,13 +18,20 @@ let backgroundColor = [0, 0, 0],
 let amountBoids = 50,
     flock;
 
+// Settings interactions
+let simulationContainer = document.getElementById("simulationContainer");
+
 // Classes
 class Boid {
     constructor(
-        forge = 0.2,
+        forge = 0.5,
         speed = 2.0,
-        sight = 40,
-        size = 5,
+
+        alignSight = 50,
+        cohesionSight = 40,
+        separationSight = 80,
+
+        size = 2,
         color = [10, 211, 255],
     ) {
         // Movement variables
@@ -39,11 +46,13 @@ class Boid {
         this.acceleration = createVector();
 
         // Movement forges
-        this.maxForce = forge;
-        this.maxSpeed = speed;
+        this.force = forge;
+        this.speed = speed;
 
         // Sight
-        this.sight = sight;
+        this.alignSight = alignSight;
+        this.cohesionSight = cohesionSight;
+        this.separationSight = separationSight;
 
         // Appearance
         this.size = size;
@@ -72,7 +81,10 @@ class Boid {
             alignSteering = createVector(),
             cohesionSteering = createVector(),
             separationSteering = createVector(),
-            total = 0;
+            total = 0,
+            alignTotal = 0,
+            cohesionTotal = 0,
+            separationTotal = 0;
 
         // Loop over all boids in the flock
         for (let i = 0; i < boids.length; i++) {
@@ -85,18 +97,28 @@ class Boid {
                 );
 
             // If other boid in sight do math
-            if (distance < this.sight && other != this) {
-                // align
-                alignSteering.add(other.velocity);
-
-                // separation
-                let difference = p5.Vector.sub(this.position, other.position);
-                difference.div(distance * distance);
-                separationSteering.add(difference);
+            if (this != other) {
+                if (distance < this.alignSight) {
+                    // align
+                    alignSteering.add(other.velocity);
+                    alignTotal++;
+                }
 
                 // cohesion
-                cohesionSteering.add(other.position);
+                if (distance < this.cohesionSight) {
+                    cohesionSteering.add(other.position);
+                    cohesionTotal++;
+                }
 
+                // separation
+                if (distance < this.separationSight) {
+                    let difference = p5.Vector.sub(
+                        this.position,
+                        other.position,
+                    );
+                    difference.div(distance * distance);
+                    separationSteering.add(difference);
+                }
                 total++;
             }
         }
@@ -104,28 +126,34 @@ class Boid {
         // Calculate the final steering
         if (total > 0) {
             // align
-            alignSteering.div(total);
-            alignSteering.setMag(this.maxSpeed);
-            alignSteering.sub(this.velocity);
-            alignSteering.limit(this.maxForce);
-
-            // separation
-            separationSteering.div(total);
-            separationSteering.setMag(this.maxSpeed);
-            separationSteering.sub(this.velocity);
-            separationSteering.limit(this.maxForce);
+            if (alignTotal > 0) {
+                alignSteering.div(alignTotal);
+                alignSteering.setMag(this.speed);
+                alignSteering.sub(this.velocity);
+                alignSteering.limit(this.force);
+            }
 
             // cohesion
-            cohesionSteering.div(total);
-            cohesionSteering.sub(this.position);
-            cohesionSteering.setMag(this.maxSpeed);
-            cohesionSteering.sub(this.velocity);
-            cohesionSteering.limit(this.maxForce);
+            if (cohesionTotal > 0) {
+                cohesionSteering.div(cohesionTotal);
+                cohesionSteering.sub(this.position);
+                cohesionSteering.setMag(this.speed);
+                cohesionSteering.sub(this.velocity);
+                cohesionSteering.limit(this.force);
+            }
+
+            if (separationTotal > 0) {
+                // separation
+                separationSteering.div(total);
+                separationSteering.setMag(this.speed);
+                separationSteering.sub(this.velocity);
+                separationSteering.limit(this.force);
+            }
         }
 
         steering.add(alignSteering);
-        steering.add(separationSteering);
         steering.add(cohesionSteering);
+        steering.add(separationSteering);
 
         return steering;
     }
@@ -137,41 +165,58 @@ class Boid {
     }
 
     // Draw the boid on the canvas
-    draw(velocity = false, sight = false) {
-        stroke(this.color);
-        strokeWeight(this.size);
-        point(this.position.x, this.position.y);
-
-        // Visualize velocity
-        if (velocity) {
-            stroke([255, 0, 0]);
+    draw(debugView = false) {
+        // Show debug animations
+        if (debugView) {
             strokeWeight(1);
+
+            // Visualize velocity
+            stroke([255, 0, 0]);
             line(
                 this.position.x,
                 this.position.y,
                 this.position.x + this.velocity.x * 10,
                 this.position.y + this.velocity.y * 10,
             );
-        }
 
-        // Visualize sight
-        if (sight) {
-            stroke([0, 255, 0]);
-            strokeWeight(1);
+            // Visualize align sight
+            stroke([255, 255, 0]);
             ellipse(
-                this.position.x - this.size / 2,
-                this.position.y - this.size / 2,
-                this.sight,
-                this.sight,
+                this.position.x,
+                this.position.y,
+                this.alignSight,
+                this.alignSight,
+            );
+
+            // Visualize cohesion sight
+            stroke([255, 255, 255]);
+            ellipse(
+                this.position.x,
+                this.position.y,
+                this.cohesionSight,
+                this.cohesionSight,
+            );
+
+            // Visualize separation sight
+            stroke([0, 255, 255]);
+            ellipse(
+                this.position.x,
+                this.position.y,
+                this.separationSight,
+                this.separationSight,
             );
         }
+
+        stroke(this.color);
+        strokeWeight(this.size);
+        point(this.position.x, this.position.y);
     }
 
     // Update the position and the velocity
     updateMovement() {
         this.position.add(this.velocity);
         this.velocity.add(this.acceleration);
-        this.velocity.limit(this.maxSpeed);
+        this.velocity.limit(this.speed);
         this.acceleration.mult(0);
     }
 }
@@ -180,7 +225,8 @@ class Boid {
 
 function setup() {
     // Setup canvas
-    createCanvas(width, height);
+    let canvas = createCanvas(width, height);
+    canvas.parent(simulationContainer);
     background(backgroundColor);
     noFill();
 
@@ -197,6 +243,6 @@ function draw() {
         boid.wrapAround();
         boid.flock(flock);
         boid.updateMovement();
-        boid.draw(false, false);
+        boid.draw(false);
     }
 }
