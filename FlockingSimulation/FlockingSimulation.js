@@ -14,7 +14,7 @@ let backgroundColor = [0, 0, 0],
     primaryColor = [255, 255, 255];
 
 // Flocking Simulation
-let amountBoids = 300,
+let amountBoids = 350,
     flock;
 
 // Settings interactions
@@ -277,7 +277,13 @@ function setup() {
 
     flock = [];
     for (let i = 0; i < amountBoids; i++) {
-        flock.push(new Boid());
+        let boid = new Boid();
+        boid.size = i / 50;
+        boid.alignSight = i / 3;
+        boid.cohesionSight = i / 3;
+        boid.separationSight = i / 3;
+        boid.color = [random(0, 255), random(0, 255), random(0, 255)];
+        flock.push(boid);
     }
 }
 
@@ -287,7 +293,6 @@ function draw() {
     // Calculate updates in movement
     for (let i = 0; i < flock.length; i++) {
         let boid = flock[i];
-        boid.size = i / 50;
         boid.wrapAround();
         boid.flock(flock);
     }
@@ -296,7 +301,7 @@ function draw() {
     for (let i = 0; i < flock.length; i++) {
         let boid = flock[i];
         boid.updateMovement();
-        boid.draw();
+        boid.draw(false);
     }
 }
 
