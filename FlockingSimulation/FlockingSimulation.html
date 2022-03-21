@@ -35,90 +35,104 @@
     <body style="background-color: white">
         <div id="simulationContainer">
             <div id="boidBuilder">
-                <p class="optionName">Forge</p>
-                <input
-                    class="slider"
-                    id="globalForge1"
-                    type="range"
-                    min="0"
-                    max="1"
-                    value="0.2"
-                    step="0.1"
-                />
-                <input class="manualInput" type="number" id="globalForge2" />
-                <p class="optionValue">value</p>
-                <p class="optionName">Speed</p>
-                <input
-                    class="slider"
-                    id="globalSpeed1"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value="2.0"
-                    step="0.1"
-                />
-                <input class="manualInput" type="number" id="globalSpeed2" />
-                <p class="optionValue">value</p>
-                <p class="optionName">Align sight</p>
-                <input
-                    class="slider"
-                    id="globalalignSight1"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="50"
-                    step="1"
-                />
-                <input
-                    typeclass="manualInput"
-                    ="number"
-                    id="globalalignSight2"
-                />
-                <p class="optionValue">value</p>
-                <p class="optionName">Cohesion sight</p>
-                <input
-                    class="slider"
-                    id="globalcohesionSight1"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="50"
-                    step="1"
-                />
-                <input
-                    typeclass="manualInput"
-                    ="number"
-                    id="globalcohesionSight2"
-                />
-                <p class="optionValue">value</p>
-                <p class="optionName">separation sight</p>
-                <input
-                    class="slider"
-                    id="globalseparationSight1"
-                    type="range"
-                    min="0"
-                    max="100"
-                    value="50"
-                    step="1"
-                />
-                <input
-                    typeclass="manualInput"
-                    ="number"
-                    id="globalseparationSight2"
-                />
-                <p class="optionValue">value</p>
-                <p class="optionName">Size</p>
-                <input
-                    class="slider"
-                    id="globalSize1"
-                    type="range"
-                    min="2"
-                    max="10"
-                    value="6"
-                    step="1"
-                />
-                <input class="manualInput" type="number" id="globalSize2" />
-                <p class="optionValue">value</p>
+                <div class="optionTile" id="global">
+                    <p class="optionName">Forge</p>
+                    <input
+                        class="slider"
+                        id="globalForgeSlider"
+                        type="range"
+                        min="0.01"
+                        max="10"
+                        value="0.2"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalForgeInput"
+                    />
+                    <p class="optionValue" id="globalForgeValue"></p>
+                    <p class="optionName">Speed</p>
+                    <input
+                        class="slider"
+                        id="globalSpeedSlider"
+                        type="range"
+                        min="0.01"
+                        max="10"
+                        value="2.0"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalSpeedInput"
+                    />
+                    <p class="optionValue" id="globalSpeedValue"></p>
+                    <p class="optionName">Align</p>
+                    <input
+                        class="slider"
+                        id="globalAlignSlider"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="50"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalAlignInput"
+                    />
+                    <p class="optionValue" id="globalAlignValue"></p>
+                    <p class="optionName">Cohesion</p>
+                    <input
+                        class="slider"
+                        id="globalCohesionSlider"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="50"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalCohesionInput"
+                    />
+                    <p class="optionValue" id="globalCohesionValue"></p>
+                    <p class="optionName">separation</p>
+                    <input
+                        class="slider"
+                        id="globalSeparationSlider"
+                        type="range"
+                        min="0"
+                        max="100"
+                        value="50"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalSeparationInput"
+                    />
+                    <p class="optionValue" id="globalSeparationValue"></p>
+                    <p class="optionName">Size</p>
+                    <input
+                        class="slider"
+                        id="globalSizeSlider"
+                        type="range"
+                        min="Input"
+                        max="10"
+                        value="6"
+                        step="any"
+                    />
+                    <input
+                        class="manualInput"
+                        type="number"
+                        id="globalSizeInput"
+                    />
+                    <p class="optionValue" id="globalSizeValue"></p>
+                </div>
             </div>
         </div>
     </body>

@@ -7,19 +7,59 @@ let canvasSize = [440, 440],
 
 // Coordinates indexes
 let X = 0,
-    Y = 1,
-    Z = 2;
+    Y = 1;
 
 // Colors
 let backgroundColor = [0, 0, 0],
     primaryColor = [255, 255, 255];
 
 // Flocking Simulation
-let amountBoids = 50,
+let amountBoids = 300,
     flock;
 
 // Settings interactions
-let simulationContainer = document.getElementById("simulationContainer");
+let simulationContainer = document.getElementById("simulationContainer"),
+    optionsGlobal = document.getElementById("global");
+
+// Settings
+
+// Global settings
+
+// Forge
+let globalForgeSlider = document.getElementById("globalForgeSlider"),
+    globalForgeInput = document.getElementById("globalForgeInput"),
+    globalForgeValue = document.getElementById("globalForgeValue");
+globalForgeValue.innerHTML = round(globalForgeSlider.value);
+
+// Speed
+let globalSpeedSlider = document.getElementById("globalSpeedSlider"),
+    globalSpeedInput = document.getElementById("globalSpeedInput"),
+    globalSpeedValue = document.getElementById("globalSpeedValue");
+globalSpeedValue.innerHTML = round(globalSpeedSlider.value);
+
+// AlignSight
+let globalAlignSlider = document.getElementById("globalAlignSlider"),
+    globalAlignInput = document.getElementById("globalAlignInput"),
+    globalAlignValue = document.getElementById("globalAlignValue");
+globalAlignValue.innerHTML = round(globalAlignSlider.value);
+
+// CohesionSight
+let globalCohesionSlider = document.getElementById("globalCohesionSlider"),
+    globalCohesionInput = document.getElementById("globalCohesionInput"),
+    globalCohesionValue = document.getElementById("globalCohesionValue");
+globalCohesionValue.innerHTML = round(globalCohesionSlider.value);
+
+// SeparationSight
+let globalSeparationSlider = document.getElementById("globalSeparationSlider"),
+    globalSeparationInput = document.getElementById("globalSeparationInput"),
+    globalSeparationValue = document.getElementById("globalSeparationValue");
+globalSeparationValue.innerHTML = round(globalSeparationSlider.value);
+
+// Size
+let globalSizeSlider = document.getElementById("globalSizeSlider"),
+    globalSizeInput = document.getElementById("globalSizeInput"),
+    globalSizeValue = document.getElementById("globalSizeValue");
+globalSizeValue.innerHTML = round(globalSizeSlider.value);
 
 // Classes
 class Boid {
@@ -223,6 +263,11 @@ class Boid {
 
 // Functions
 
+// Round a number to 2 decimals
+function round(number) {
+    return Math.round(number * 100) / 100;
+}
+
 function setup() {
     // Setup canvas
     let canvas = createCanvas(width, height);
@@ -238,11 +283,21 @@ function setup() {
 
 function draw() {
     background(backgroundColor);
+
+    // Calculate updates in movement
     for (let i = 0; i < flock.length; i++) {
         let boid = flock[i];
+        boid.size = i / 50;
         boid.wrapAround();
         boid.flock(flock);
+    }
+
+    // Update and move the boids
+    for (let i = 0; i < flock.length; i++) {
+        let boid = flock[i];
         boid.updateMovement();
-        boid.draw(false);
+        boid.draw();
     }
 }
+
+// TODO add mouse interaction (If possible)
