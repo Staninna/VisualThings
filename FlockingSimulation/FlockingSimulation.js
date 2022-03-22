@@ -10,11 +10,10 @@ let X = 0,
     Y = 1;
 
 // Colors
-let backgroundColor = [0, 0, 0],
-    primaryColor = [255, 255, 255];
+let backgroundColor = [0, 0, 0];
 
 // Flocking Simulation
-let amountBoids = 350,
+let amountBoids = 100,
     flock;
 
 // Settings interactions
@@ -28,61 +27,59 @@ let simulationContainer = document.getElementById("simulationContainer"),
 // Forge
 let globalForgeSlider = document.getElementById("globalForgeSlider"),
     globalForgeInput = document.getElementById("globalForgeInput"),
-    globalForgeValue = document.getElementById("globalForgeValue");
-globalForgeValue.innerHTML = round(globalForgeSlider.value);
+    globalForgeValueText = document.getElementById("globalForgeValue");
+globalForgeValueText.innerHTML = rounded(globalForgeSlider.value);
 
 // Speed
 let globalSpeedSlider = document.getElementById("globalSpeedSlider"),
     globalSpeedInput = document.getElementById("globalSpeedInput"),
-    globalSpeedValue = document.getElementById("globalSpeedValue");
-globalSpeedValue.innerHTML = round(globalSpeedSlider.value);
+    globalSpeedValueText = document.getElementById("globalSpeedValue");
+globalSpeedValueText.innerHTML = rounded(globalSpeedSlider.value);
 
 // AlignSight
-let globalAlignSlider = document.getElementById("globalAlignSlider"),
-    globalAlignInput = document.getElementById("globalAlignInput"),
-    globalAlignValue = document.getElementById("globalAlignValue");
-globalAlignValue.innerHTML = round(globalAlignSlider.value);
+let globalAlignSightSlider = document.getElementById("globalAlignSightSlider"),
+    globalAlignSightInput = document.getElementById("globalAlignSightInput"),
+    globalAlignSightValueText = document.getElementById("globalAlignSightValue");
+globalAlignSightValueText.innerHTML = rounded(globalAlignSightSlider.value);
 
 // CohesionSight
-let globalCohesionSlider = document.getElementById("globalCohesionSlider"),
-    globalCohesionInput = document.getElementById("globalCohesionInput"),
-    globalCohesionValue = document.getElementById("globalCohesionValue");
-globalCohesionValue.innerHTML = round(globalCohesionSlider.value);
+let globalCohesionSightSlider = document.getElementById("globalCohesionSightSlider"),
+    globalCohesionSightInput = document.getElementById("globalCohesionSightInput"),
+    globalCohesionSightValueText = document.getElementById("globalCohesionSightValue");
+globalCohesionSightValueText.innerHTML = rounded(globalCohesionSightSlider.value);
 
 // SeparationSight
-let globalSeparationSlider = document.getElementById("globalSeparationSlider"),
-    globalSeparationInput = document.getElementById("globalSeparationInput"),
-    globalSeparationValue = document.getElementById("globalSeparationValue");
-globalSeparationValue.innerHTML = round(globalSeparationSlider.value);
+let globalSeparationSightSlider = document.getElementById(
+        "globalSeparationSightSlider",
+    ),
+    globalSeparationSightInput = document.getElementById("globalSeparationSightInput"),
+    globalSeparationSightValueText = document.getElementById(
+        "globalSeparationSightValue",
+    );
+globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightSlider.value);
 
 // Size
 let globalSizeSlider = document.getElementById("globalSizeSlider"),
     globalSizeInput = document.getElementById("globalSizeInput"),
-    globalSizeValue = document.getElementById("globalSizeValue");
-globalSizeValue.innerHTML = round(globalSizeSlider.value);
+    globalSizeValueText = document.getElementById("globalSizeValue");
+globalSizeValueText.innerHTML = rounded(globalSizeSlider.value);
 
 // Classes
 class Boid {
     constructor(
-        forge = 0.5,
+        forge = 0.2,
         speed = 2.0,
 
         alignSight = 50,
-        cohesionSight = 40,
-        separationSight = 80,
+        cohesionSight = 50,
+        separationSight = 50,
 
-        size = 2,
+        size = 6,
         color = [10, 211, 255],
     ) {
         // Movement variables
-        this.position = createVector(
-            random(0, canvasSize[X]),
-            random(0, canvasSize[Y]),
-        );
-        this.velocity = createVector(
-            random(-speed, speed),
-            random(-speed, speed),
-        );
+        this.position = createVector(random(0, width), random(0, height));
+        this.velocity = createVector(random(-speed, speed), random(-speed, speed));
         this.acceleration = createVector();
 
         // Movement forges
@@ -102,17 +99,17 @@ class Boid {
     // Let the boids wrap around the screen
     wrapAround() {
         // X-as wrap around
-        if (this.position.x > canvasSize[X]) {
+        if (this.position.x > width) {
             this.position.x = 0;
         } else if (this.position.x < 0) {
-            this.position.x = canvasSize[X];
+            this.position.x = width;
         }
 
         // Y-as wrap around
-        if (this.position.y > canvasSize[Y]) {
+        if (this.position.y > height) {
             this.position.y = 0;
         } else if (this.position.y < 0) {
-            this.position.y = canvasSize[Y];
+            this.position.y = height;
         }
     }
 
@@ -152,10 +149,7 @@ class Boid {
 
                 // separation
                 if (distance < this.separationSight) {
-                    let difference = p5.Vector.sub(
-                        this.position,
-                        other.position,
-                    );
+                    let difference = p5.Vector.sub(this.position, other.position);
                     difference.div(distance * distance);
                     separationSteering.add(difference);
                 }
@@ -199,9 +193,7 @@ class Boid {
     }
 
     flock(boids) {
-        let steering = this.calculateFlock(boids);
-
-        this.acceleration.add(steering);
+        this.acceleration.add(this.calculateFlock(boids));
     }
 
     // Draw the boid on the canvas
@@ -221,12 +213,7 @@ class Boid {
 
             // Visualize align sight
             stroke([255, 255, 0]);
-            ellipse(
-                this.position.x,
-                this.position.y,
-                this.alignSight,
-                this.alignSight,
-            );
+            ellipse(this.position.x, this.position.y, this.alignSight, this.alignSight);
 
             // Visualize cohesion sight
             stroke([255, 255, 255]);
@@ -264,9 +251,80 @@ class Boid {
 // Functions
 
 // Round a number to 2 decimals
-function round(number) {
+function rounded(number) {
     return Math.round(number * 100) / 100;
 }
+
+// Updates a value in a boid
+function updateBoid(boid, variable, value) {
+    eval(`boid.${variable} = ${value}`);
+}
+
+// Event listener handlers
+
+// Size
+function globalSizeEventHandler(event) {
+    globalSizeValue = rounded(event.target.value);
+    globalSizeValueText.innerHTML = globalSizeValue;
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "size", globalSizeValue);
+    }
+}
+
+// Forge
+function globalForgeEventHandler(event) {
+    globalForgeValue = rounded(event.target.value);
+    globalForgeValueText.innerHTML = globalForgeValue;
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "force", globalForgeValue);
+    }
+}
+
+// Speed
+function globalSpeedEventHandler(event) {
+    globalSpeedValue = rounded(event.target.value);
+    globalSpeedValueText.innerHTML = globalSpeedValue;
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "speed", globalSpeedValue);
+    }
+}
+
+// Align sight
+function globalAlignSightEventHandler(event) {
+    globalAlignSightValue = event.target.value;
+    globalAlignSightValueText.innerHTML = rounded(globalAlignSightValue);
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "alignSight", globalAlignSightValue);
+    }
+}
+
+// Cohesion sight
+function globalCohesionSightEventHandler(event) {
+    globalCohesionSightValue = event.target.value;
+    globalCohesionSightValueText.innerHTML = rounded(globalCohesionSightValue);
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "cohesionSight", globalCohesionSightValue);
+    }
+}
+
+// SeparationSight
+globalSeparationSightSlider.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
+globalSeparationSightInput.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
+function globalSeparationSightEventHandler(event) {
+    globalSeparationSightValue = event.target.value;
+    globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightValue);
+}
+
+// Default P5.js functions
 
 function setup() {
     // Setup canvas
@@ -275,15 +333,10 @@ function setup() {
     background(backgroundColor);
     noFill();
 
+    // Generate a flock
     flock = [];
     for (let i = 0; i < amountBoids; i++) {
-        let boid = new Boid();
-        boid.size = i / 50;
-        boid.alignSight = i / 3;
-        boid.cohesionSight = i / 3;
-        boid.separationSight = i / 3;
-        boid.color = [random(0, 255), random(0, 255), random(0, 255)];
-        flock.push(boid);
+        flock.push(new Boid());
     }
 }
 
@@ -305,4 +358,49 @@ function draw() {
     }
 }
 
+// Code
+
+// Event listeners
+
+// Global settings
+
+// Size
+globalSizeSlider.addEventListener("change", (event) => globalSizeEventHandler(event));
+globalSizeInput.addEventListener("change", (event) => globalSizeEventHandler(event));
+
+// Forge
+globalForgeSlider.addEventListener("change", (event) => globalForgeEventHandler(event));
+globalForgeInput.addEventListener("change", (event) => globalForgeEventHandler(event));
+
+// Speed
+globalSpeedSlider.addEventListener("change", (event) => globalSpeedEventHandler(event));
+globalSpeedInput.addEventListener("change", (event) => globalSpeedEventHandler(event));
+
+// Align sight
+globalAlignSightSlider.addEventListener("change", (event) =>
+    globalAlignSightEventHandler(event),
+);
+globalAlignSightInput.addEventListener("change", (event) =>
+    globalAlignSightEventHandler(event),
+);
+
+// Cohesion sight
+globalCohesionSightSlider.addEventListener("change", (event) =>
+    globalCohesionSightEventHandler(event),
+);
+globalCohesionSightInput.addEventListener("change", (event) =>
+    globalCohesionSightEventHandler(event),
+);
+
+// SeparationSight
+globalSeparationSightSlider.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
+globalSeparationSightInput.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
+
 // TODO add mouse interaction (If possible)
+// TODO add walls of some kind
+// TODO add tile system
+// TODO parameters in the url bar ?speed=x with export button
