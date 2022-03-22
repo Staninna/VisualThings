@@ -1,0 +1,19 @@
+@import "reset";
+@import "default";
+
+#simulationContainer {
+    background-color: gray;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 40px;
+}
+
+.optionInputContainer {
+    display: flex;
+    justify-content: space-between;
+
+    .manualInput {
+        width: 100px;
+    }
+}
