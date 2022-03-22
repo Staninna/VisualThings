@@ -403,4 +403,7 @@ globalSeparationSightInput.addEventListener("change", (event) =>
 // TODO add mouse interaction (If possible)
 // TODO add walls of some kind
 // TODO add tile system
-// TODO parameters in the url bar ?speed=x with export button
+// TODO add parameters in the url bar ?speed=x with export button
+// TODO add global color
+// TODO add way to modify boids and add X amount of boid with X variables
+// TODO add DEBUG/PAUSE button

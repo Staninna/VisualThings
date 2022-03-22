@@ -65,7 +65,6 @@ function setup() {
     percentage = mode === "square" ? 2 / 3 : mode === "square2" ? 2 / 3 : 0.5;
 
     // Get points on a circle
-    // TODO https://editor.p5js.org/ftobon@heartofla.org/sketches/SkBy9XP97
     points = [];
     for (let i = 0; i < amountPoints; i++) {
         let point = [
