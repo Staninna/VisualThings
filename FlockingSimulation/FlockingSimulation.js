@@ -14,6 +14,7 @@ let backgroundColor = [0, 0, 0];
 
 // Flocking Simulation
 let amountBoids = 100,
+    debug = false,
     flock;
 
 // Settings interactions
@@ -49,13 +50,9 @@ let globalCohesionSightSlider = document.getElementById("globalCohesionSightSlid
 globalCohesionSightValueText.innerHTML = rounded(globalCohesionSightSlider.value);
 
 // SeparationSight
-let globalSeparationSightSlider = document.getElementById(
-        "globalSeparationSightSlider",
-    ),
+let globalSeparationSightSlider = document.getElementById("globalSeparationSightSlider"),
     globalSeparationSightInput = document.getElementById("globalSeparationSightInput"),
-    globalSeparationSightValueText = document.getElementById(
-        "globalSeparationSightValue",
-    );
+    globalSeparationSightValueText = document.getElementById("globalSeparationSightValue");
 globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightSlider.value);
 
 // Size
@@ -126,12 +123,7 @@ class Boid {
         // Loop over all boids in the flock
         for (let i = 0; i < boids.length; i++) {
             let other = boids[i],
-                distance = dist(
-                    this.position.x,
-                    this.position.y,
-                    other.position.x,
-                    other.position.y,
-                );
+                distance = dist(this.position.x, this.position.y, other.position.x, other.position.y);
 
             // If other boid in sight do math
             if (this != other) {
@@ -204,12 +196,7 @@ class Boid {
 
             // Visualize velocity
             stroke([255, 0, 0]);
-            line(
-                this.position.x,
-                this.position.y,
-                this.position.x + this.velocity.x * 10,
-                this.position.y + this.velocity.y * 10,
-            );
+            line(this.position.x, this.position.y, this.position.x + this.velocity.x * 10, this.position.y + this.velocity.y * 10);
 
             // Visualize align sight
             stroke([255, 255, 0]);
@@ -217,21 +204,11 @@ class Boid {
 
             // Visualize cohesion sight
             stroke([255, 255, 255]);
-            ellipse(
-                this.position.x,
-                this.position.y,
-                this.cohesionSight,
-                this.cohesionSight,
-            );
+            ellipse(this.position.x, this.position.y, this.cohesionSight, this.cohesionSight);
 
             // Visualize separation sight
             stroke([0, 255, 255]);
-            ellipse(
-                this.position.x,
-                this.position.y,
-                this.separationSight,
-                this.separationSight,
-            );
+            ellipse(this.position.x, this.position.y, this.separationSight, this.separationSight);
         }
 
         stroke(this.color);
@@ -258,6 +235,27 @@ function rounded(number) {
 // Updates a value in a boid
 function updateBoid(boid, variable, value) {
     eval(`boid.${variable} = ${value}`);
+}
+
+// Play and Pause the render in the canvas
+function pauseRender(event) {
+    let action = event.target.innerHTML;
+    if (action === "Pause") {
+        noLoop();
+        event.target.innerHTML = "Play";
+    } else if (action === "Play") {
+        loop();
+        event.target.innerHTML = "Pause";
+    }
+}
+
+// Show debug visuals
+function showDebug() {
+    if (debug) {
+        debug = false;
+    } else if (!debug) {
+        debug = true;
+    }
 }
 
 // Event listener handlers
@@ -313,12 +311,8 @@ function globalCohesionSightEventHandler(event) {
 }
 
 // SeparationSight
-globalSeparationSightSlider.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
-);
-globalSeparationSightInput.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
-);
+globalSeparationSightSlider.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
+globalSeparationSightInput.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
 function globalSeparationSightEventHandler(event) {
     globalSeparationSightValue = event.target.value;
     globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightValue);
@@ -354,7 +348,7 @@ function draw() {
     for (let i = 0; i < flock.length; i++) {
         let boid = flock[i];
         boid.updateMovement();
-        boid.draw(false);
+        boid.draw(debug);
     }
 }
 
@@ -377,28 +371,16 @@ globalSpeedSlider.addEventListener("change", (event) => globalSpeedEventHandler(
 globalSpeedInput.addEventListener("change", (event) => globalSpeedEventHandler(event));
 
 // Align sight
-globalAlignSightSlider.addEventListener("change", (event) =>
-    globalAlignSightEventHandler(event),
-);
-globalAlignSightInput.addEventListener("change", (event) =>
-    globalAlignSightEventHandler(event),
-);
+globalAlignSightSlider.addEventListener("change", (event) => globalAlignSightEventHandler(event));
+globalAlignSightInput.addEventListener("change", (event) => globalAlignSightEventHandler(event));
 
 // Cohesion sight
-globalCohesionSightSlider.addEventListener("change", (event) =>
-    globalCohesionSightEventHandler(event),
-);
-globalCohesionSightInput.addEventListener("change", (event) =>
-    globalCohesionSightEventHandler(event),
-);
+globalCohesionSightSlider.addEventListener("change", (event) => globalCohesionSightEventHandler(event));
+globalCohesionSightInput.addEventListener("change", (event) => globalCohesionSightEventHandler(event));
 
 // SeparationSight
-globalSeparationSightSlider.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
-);
-globalSeparationSightInput.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
-);
+globalSeparationSightSlider.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
+globalSeparationSightInput.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
 
 // TODO add mouse interaction (If possible)
 // TODO add walls of some kind
@@ -406,4 +388,3 @@ globalSeparationSightInput.addEventListener("change", (event) =>
 // TODO add parameters in the url bar ?speed=x with export button
 // TODO add global color
 // TODO add way to modify boids and add X amount of boid with X variables
-// TODO add DEBUG/PAUSE button
