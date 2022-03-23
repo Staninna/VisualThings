@@ -25,6 +25,15 @@ let simulationContainer = document.getElementById("simulationContainer"),
 
 // Global settings
 
+// Color
+let globalColor = document.getElementById("globalColor");
+
+// Size
+let globalSizeSlider = document.getElementById("globalSizeSlider"),
+    globalSizeInput = document.getElementById("globalSizeInput"),
+    globalSizeValueText = document.getElementById("globalSizeValue");
+globalSizeValueText.innerHTML = rounded(globalSizeSlider.value);
+
 // Forge
 let globalForgeSlider = document.getElementById("globalForgeSlider"),
     globalForgeInput = document.getElementById("globalForgeInput"),
@@ -55,12 +64,6 @@ let globalSeparationSightSlider = document.getElementById("globalSeparationSight
     globalSeparationSightValueText = document.getElementById("globalSeparationSightValue");
 globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightSlider.value);
 
-// Size
-let globalSizeSlider = document.getElementById("globalSizeSlider"),
-    globalSizeInput = document.getElementById("globalSizeInput"),
-    globalSizeValueText = document.getElementById("globalSizeValue");
-globalSizeValueText.innerHTML = rounded(globalSizeSlider.value);
-
 // Classes
 class Boid {
     constructor(
@@ -72,7 +75,7 @@ class Boid {
         separationSight = 50,
 
         size = 6,
-        color = [10, 211, 255],
+        color = "#00D3FF",
     ) {
         // Movement variables
         this.position = createVector(random(0, width), random(0, height));
@@ -260,6 +263,15 @@ function showDebug() {
 
 // Event listener handlers
 
+// Color
+function globalColorEventHandler(event) {
+    globalColorValue = event.target.value;
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "color", `"${globalColorValue}"`);
+    }
+}
+
 // Size
 function globalSizeEventHandler(event) {
     globalSizeValue = rounded(event.target.value);
@@ -292,8 +304,8 @@ function globalSpeedEventHandler(event) {
 
 // Align sight
 function globalAlignSightEventHandler(event) {
-    globalAlignSightValue = event.target.value;
-    globalAlignSightValueText.innerHTML = rounded(globalAlignSightValue);
+    globalAlignSightValue = rounded(event.target.value);
+    globalAlignSightValueText.innerHTML = globalAlignSightValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "alignSight", globalAlignSightValue);
@@ -302,20 +314,21 @@ function globalAlignSightEventHandler(event) {
 
 // Cohesion sight
 function globalCohesionSightEventHandler(event) {
-    globalCohesionSightValue = event.target.value;
-    globalCohesionSightValueText.innerHTML = rounded(globalCohesionSightValue);
+    globalCohesionSightValue = rounded(event.target.value);
+    globalCohesionSightValueText.innerHTML = globalCohesionSightValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "cohesionSight", globalCohesionSightValue);
     }
 }
 
-// SeparationSight
-globalSeparationSightSlider.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
-globalSeparationSightInput.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
 function globalSeparationSightEventHandler(event) {
-    globalSeparationSightValue = event.target.value;
-    globalSeparationSightValueText.innerHTML = rounded(globalSeparationSightValue);
+    globalSeparationSightValue = rounded(event.target.value);
+    globalSeparationSightValueText.innerHTML = globalSeparationSightValue;
+    for (let i = 0; i < flock.length; i++) {
+        boid = flock[i];
+        updateBoid(boid, "separationSight", globalSeparationSightValue);
+    }
 }
 
 // Default P5.js functions
@@ -357,6 +370,9 @@ function draw() {
 // Event listeners
 
 // Global settings
+
+// Color
+globalColor.addEventListener("change", (event) => globalColorEventHandler(event));
 
 // Size
 globalSizeSlider.addEventListener("change", (event) => globalSizeEventHandler(event));
