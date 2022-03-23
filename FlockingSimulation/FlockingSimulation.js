@@ -276,6 +276,8 @@ function globalColorEventHandler(event) {
 function globalSizeEventHandler(event) {
     globalSizeValue = rounded(event.target.value);
     globalSizeValueText.innerHTML = globalSizeValue;
+    globalSizeSlider.value = globalSizeValue;
+    globalSizeInput.value = globalSizeValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "size", globalSizeValue);
@@ -286,6 +288,8 @@ function globalSizeEventHandler(event) {
 function globalForgeEventHandler(event) {
     globalForgeValue = rounded(event.target.value);
     globalForgeValueText.innerHTML = globalForgeValue;
+    globalForgeSlider.value = globalForgeValue;
+    globalForgeInput.value = globalForgeValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "force", globalForgeValue);
@@ -296,6 +300,8 @@ function globalForgeEventHandler(event) {
 function globalSpeedEventHandler(event) {
     globalSpeedValue = rounded(event.target.value);
     globalSpeedValueText.innerHTML = globalSpeedValue;
+    globalSpeedSlider.value = globalSpeedValue;
+    globalSpeedInput.value = globalSpeedValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "speed", globalSpeedValue);
@@ -306,6 +312,8 @@ function globalSpeedEventHandler(event) {
 function globalAlignSightEventHandler(event) {
     globalAlignSightValue = rounded(event.target.value);
     globalAlignSightValueText.innerHTML = globalAlignSightValue;
+    globalAlignSightSlider.value = globalAlignSightValue;
+    globalAlignSightInput.value = globalAlignSightValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "alignSight", globalAlignSightValue);
@@ -316,6 +324,8 @@ function globalAlignSightEventHandler(event) {
 function globalCohesionSightEventHandler(event) {
     globalCohesionSightValue = rounded(event.target.value);
     globalCohesionSightValueText.innerHTML = globalCohesionSightValue;
+    globalCohesionSightSlider.value = globalCohesionSightValue;
+    globalCohesionSightInput.value = globalCohesionSightValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "cohesionSight", globalCohesionSightValue);
@@ -325,6 +335,8 @@ function globalCohesionSightEventHandler(event) {
 function globalSeparationSightEventHandler(event) {
     globalSeparationSightValue = rounded(event.target.value);
     globalSeparationSightValueText.innerHTML = globalSeparationSightValue;
+    globalSeparationSightSlider.value = globalSeparationSightValue;
+    globalSeparationSightInput.value = globalSeparationSightValue;
     for (let i = 0; i < flock.length; i++) {
         boid = flock[i];
         updateBoid(boid, "separationSight", globalSeparationSightValue);
@@ -339,6 +351,32 @@ function setup() {
     canvas.parent(simulationContainer);
     background(backgroundColor);
     noFill();
+
+    // Set sliders to default
+    values = new Boid();
+    globalColor.value = values.color;
+    globalSizeSlider.value = values.size;
+    globalForgeSlider.value = values.force;
+    globalSpeedSlider.value = values.speed;
+    globalAlignSightSlider.value = values.alignSight;
+    globalCohesionSightSlider.value = values.cohesionSight;
+    globalSeparationSightSlider.value = values.separationSight;
+
+    globalSizeInput.value = values.size;
+    globalForgeInput.value = values.force;
+    globalSpeedInput.value = values.speed;
+    globalAlignSightInput.value = values.alignSight;
+    globalCohesionSightInput.value = values.cohesionSight;
+    globalSeparationSightInput.value = values.separationSight;
+
+    globalSizeValueText.innerHTML = values.size;
+    globalForgeValueText.innerHTML = values.force;
+    globalSpeedValueText.innerHTML = values.speed;
+    globalAlignSightValueText.innerHTML = values.alignSight;
+    globalCohesionSightValueText.innerHTML = values.cohesionSight;
+    globalSeparationSightValueText.innerHTML = values.separationSight;
+
+    delete values;
 
     // Generate a flock
     flock = [];
@@ -402,5 +440,4 @@ globalSeparationSightInput.addEventListener("change", (event) => globalSeparatio
 // TODO add walls of some kind
 // TODO add tile system
 // TODO add parameters in the url bar ?speed=x with export button
-// TODO add global color
 // TODO add way to modify boids and add X amount of boid with X variables
