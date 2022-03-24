@@ -9,7 +9,14 @@
         <!-- Javascript links -->
         <script type="text/javascript" src="./Boid.js" defer></script>
         <script type="text/javascript" src="./FlockingSimulation.js" defer></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js" integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
+        <script
+            type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.1/p5.min.js"
+            integrity="sha512-NxocnqsXP3zm0Xb42zqVMvjQIktKEpTIbCXXyhBPxqGZHqhcOXHs4pXI/GoZ8lE+2NJONRifuBpi9DxC58L0Lw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+            defer
+        ></script>
 
         <!-- Styles links -->
         <link rel="stylesheet" href="./styles.min.css" />
@@ -17,7 +24,10 @@
         <!-- Title and more -->
         <title>Flocking Simulation</title>
         <meta name="author" content="Staninna, https://github.com/staninna" />
-        <meta name="description" content="A fun visualization of the boid algorithm from Craig Reynolds" />
+        <meta
+            name="description"
+            content="A fun visualization of the boid algorithm from Craig Reynolds"
+        />
     </head>
     <body>
         <div id="simulationContainer">
@@ -25,50 +35,111 @@
                 <button id="pause" onclick="pauseRender(event);">Pause</button>
                 <button id="debug" onclick="showDebug();">Debug</button>
                 <button id="reset" onclick="setup();">Reset</button>
-                <button id="1Frame" onclick="redraw();" style="display: none">Play 1 frame</button>
+                <button id="1Frame" onclick="redraw();" style="display: none">
+                    Play 1 frame
+                </button>
                 <br /><br />
-                <div class="optionTile" id="global">
-                    <p class="optionTileName">Global Settings</p>
+                <div class="optionTile" id="group">
+                    <p class="optionTileName">Group Settings</p>
                     <br />
+                    <label>Choose a flock group</label>
+                    <select id="selectGroup">
+                        <option value="group1">Group 1</option>
+                    </select>
                     <div class="optionInputContainer">
                         <p class="optionName">Size</p>
-                        <input class="sliderInput" id="globalSizeSlider" type="range" min="Input" min="1" max="10" step="any" />
-                        <input class="manualInput" type="number" id="globalSizeInput" />
-                        <p class="optionValue" id="globalSizeValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupSizeSlider"
+                            type="range"
+                            min="Input"
+                            min="1"
+                            max="10"
+                            step="any"
+                        />
+                        <input class="manualInput" type="number" id="groupSizeInput" />
+                        <p class="optionValue" id="groupSizeValue"></p>
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Force</p>
-                        <input class="sliderInput" id="globalForceSlider" type="range" min="0" max="3" step="any" />
-                        <input class="manualInput" type="number" id="globalForceInput" />
-                        <p class="optionValue" id="globalForceValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupForceSlider"
+                            type="range"
+                            min="0"
+                            max="3"
+                            step="any"
+                        />
+                        <input class="manualInput" type="number" id="groupForceInput" />
+                        <p class="optionValue" id="groupForceValue"></p>
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Speed</p>
-                        <input class="sliderInput" id="globalSpeedSlider" type="range" min="0" max="10" step="any" />
-                        <input class="manualInput" type="number" id="globalSpeedInput" />
-                        <p class="optionValue" id="globalSpeedValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupSpeedSlider"
+                            type="range"
+                            min="0"
+                            max="10"
+                            step="any"
+                        />
+                        <input class="manualInput" type="number" id="groupSpeedInput" />
+                        <p class="optionValue" id="groupSpeedValue"></p>
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Color</p>
-                        <input type="color" id="globalColor" style="width: 80%" />
+                        <input type="color" id="groupColor" style="width: 80%" />
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Align Sight</p>
-                        <input class="sliderInput" id="globalAlignSightSlider" type="range" min="0" max="100" step="any" />
-                        <input class="manualInput" type="number" id="globalAlignSightInput" />
-                        <p class="optionValue" id="globalAlignSightValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupAlignSightSlider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="any"
+                        />
+                        <input
+                            class="manualInput"
+                            type="number"
+                            id="groupAlignSightInput"
+                        />
+                        <p class="optionValue" id="groupAlignSightValue"></p>
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Cohesion Sight</p>
-                        <input class="sliderInput" id="globalCohesionSightSlider" type="range" min="0" max="100" step="any" />
-                        <input class="manualInput" type="number" id="globalCohesionSightInput" />
-                        <p class="optionValue" id="globalCohesionSightValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupCohesionSightSlider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="any"
+                        />
+                        <input
+                            class="manualInput"
+                            type="number"
+                            id="groupCohesionSightInput"
+                        />
+                        <p class="optionValue" id="groupCohesionSightValue"></p>
                     </div>
                     <div class="optionInputContainer">
                         <p class="optionName">Separation Sight</p>
-                        <input class="sliderInput" id="globalSeparationSightSlider" type="range" min="0" max="100" step="any" />
-                        <input class="manualInput" type="number" id="globalSeparationSightInput" />
-                        <p class="optionValue" id="globalSeparationSightValue"></p>
+                        <input
+                            class="sliderInput"
+                            id="groupSeparationSightSlider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            step="any"
+                        />
+                        <input
+                            class="manualInput"
+                            type="number"
+                            id="groupSeparationSightInput"
+                        />
+                        <p class="optionValue" id="groupSeparationSightValue"></p>
                     </div>
                     <br /><br />
                     <div class="optionTile" id="addCustom">
@@ -76,48 +147,134 @@
                         <br />
                         <div class="optionInputContainer">
                             <p class="optionName">Size</p>
-                            <input class="sliderInput" id="addCustomSizeSlider" type="range" min="Input" min="1" max="10" step="any" />
-                            <input class="manualInput" type="number" id="addCustomSizeInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomSizeSlider"
+                                type="range"
+                                min="Input"
+                                min="1"
+                                max="10"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomSizeInput"
+                            />
                             <p class="optionValue" id="addCustomSizeValue"></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Force</p>
-                            <input class="sliderInput" id="addCustomForceSlider" type="range" min="0" max="3" step="any" />
-                            <input class="manualInput" type="number" id="addCustomForceInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomForceSlider"
+                                type="range"
+                                min="0"
+                                max="3"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomForceInput"
+                            />
                             <p class="optionValue" id="addCustomForceValue"></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Speed</p>
-                            <input class="sliderInput" id="addCustomSpeedSlider" type="range" min="0" max="10" step="any" />
-                            <input class="manualInput" type="number" id="addCustomSpeedInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomSpeedSlider"
+                                type="range"
+                                min="0"
+                                max="10"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomSpeedInput"
+                            />
                             <p class="optionValue" id="addCustomSpeedValue"></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Color</p>
-                            <input type="color" id="addCustomColor" style="width: 80%" />
+                            <input
+                                type="color"
+                                id="addCustomColor"
+                                style="width: 80%"
+                            />
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Align Sight</p>
-                            <input class="sliderInput" id="addCustomAlignSightSlider" type="range" min="0" max="100" step="any" />
-                            <input class="manualInput" type="number" id="addCustomAlignSightInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomAlignSightSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomAlignSightInput"
+                            />
                             <p class="optionValue" id="addCustomAlignSightValue"></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Cohesion Sight</p>
-                            <input class="sliderInput" id="addCustomCohesionSightSlider" type="range" min="0" max="100" step="any" />
-                            <input class="manualInput" type="number" id="addCustomCohesionSightInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomCohesionSightSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomCohesionSightInput"
+                            />
                             <p class="optionValue" id="addCustomCohesionSightValue"></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Separation Sight</p>
-                            <input class="sliderInput" id="addCustomSeparationSightSlider" type="range" min="0" max="100" step="any" />
-                            <input class="manualInput" type="number" id="addCustomSeparationSightInput" />
-                            <p class="optionValue" id="addCustomSeparationSightValue"></p>
+                            <input
+                                class="sliderInput"
+                                id="addCustomSeparationSightSlider"
+                                type="range"
+                                min="0"
+                                max="100"
+                                step="any"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomSeparationSightInput"
+                            />
+                            <p
+                                class="optionValue"
+                                id="addCustomSeparationSightValue"
+                            ></p>
                         </div>
                         <div class="optionInputContainer">
                             <p class="optionName">Amount</p>
-                            <input class="sliderInput" id="addCustomAmountSlider" type="range" min="Input" min="1" max="100" step="1" />
-                            <input class="manualInput" type="number" id="addCustomAmountInput" />
+                            <input
+                                class="sliderInput"
+                                id="addCustomAmountSlider"
+                                type="range"
+                                min="Input"
+                                min="1"
+                                max="100"
+                                step="1"
+                            />
+                            <input
+                                class="manualInput"
+                                type="number"
+                                id="addCustomAmountInput"
+                            />
                             <p class="optionValue" id="addCustomAmountValue"></p>
                         </div>
                         <button onclick="addBoids();">Add custom boids</button>

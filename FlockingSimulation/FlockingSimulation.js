@@ -15,52 +15,53 @@ let backgroundColor = [0, 0, 0];
 // Flocking Simulation
 let amountBoids = 100,
     debug = false,
-    flock;
+    flock,
+    group,
+    groups;
 
 // Settings interactions
 let simulationContainer = document.getElementById("simulationContainer"),
-    optionsGlobal = document.getElementById("global"),
-    playOneFrame = document.getElementById("1Frame");
+    optionsGroup = document.getElementById("group"),
+    playOneFrame = document.getElementById("1Frame"),
+    selectGroup = document.getElementById("selectGroup");
 
 // Settings
 
-// Global settings
+// Group settings
 
 // Color
-let globalColor = document.getElementById("globalColor");
+let groupColor = document.getElementById("groupColor");
 
 // Size
-let globalSizeSlider = document.getElementById("globalSizeSlider"),
-    globalSizeInput = document.getElementById("globalSizeInput"),
-    globalSizeValueText = document.getElementById("globalSizeValue");
+let groupSizeSlider = document.getElementById("groupSizeSlider"),
+    groupSizeInput = document.getElementById("groupSizeInput"),
+    groupSizeValueText = document.getElementById("groupSizeValue");
 
 // Force
-let globalForceSlider = document.getElementById("globalForceSlider"),
-    globalForceInput = document.getElementById("globalForceInput"),
-    globalForceValueText = document.getElementById("globalForceValue");
+let groupForceSlider = document.getElementById("groupForceSlider"),
+    groupForceInput = document.getElementById("groupForceInput"),
+    groupForceValueText = document.getElementById("groupForceValue");
 
 // Speed
-let globalSpeedSlider = document.getElementById("globalSpeedSlider"),
-    globalSpeedInput = document.getElementById("globalSpeedInput"),
-    globalSpeedValueText = document.getElementById("globalSpeedValue");
+let groupSpeedSlider = document.getElementById("groupSpeedSlider"),
+    groupSpeedInput = document.getElementById("groupSpeedInput"),
+    groupSpeedValueText = document.getElementById("groupSpeedValue");
 
 // AlignSight
-let globalAlignSightSlider = document.getElementById("globalAlignSightSlider"),
-    globalAlignSightInput = document.getElementById("globalAlignSightInput"),
-    globalAlignSightValueText = document.getElementById("globalAlignSightValue");
+let groupAlignSightSlider = document.getElementById("groupAlignSightSlider"),
+    groupAlignSightInput = document.getElementById("groupAlignSightInput"),
+    groupAlignSightValueText = document.getElementById("groupAlignSightValue");
 
 // CohesionSight
-let globalCohesionSightSlider = document.getElementById("globalCohesionSightSlider"),
-    globalCohesionSightInput = document.getElementById("globalCohesionSightInput"),
-    globalCohesionSightValueText = document.getElementById("globalCohesionSightValue");
+let groupCohesionSightSlider = document.getElementById("groupCohesionSightSlider"),
+    groupCohesionSightInput = document.getElementById("groupCohesionSightInput"),
+    groupCohesionSightValueText = document.getElementById("groupCohesionSightValue");
 
 // SeparationSight
-let globalSeparationSightSlider = document.getElementById(
-        "globalSeparationSightSlider",
-    ),
-    globalSeparationSightInput = document.getElementById("globalSeparationSightInput"),
-    globalSeparationSightValueText = document.getElementById(
-        "globalSeparationSightValue",
+let groupSeparationSightSlider = document.getElementById("groupSeparationSightSlider"),
+    groupSeparationSightInput = document.getElementById("groupSeparationSightInput"),
+    groupSeparationSightValueText = document.getElementById(
+        "groupSeparationSightValue",
     );
 
 // Add custom settings
@@ -159,7 +160,9 @@ function addBoids() {
         alignSight = rounded(addCustomAlignSightInput.value),
         cohesionSight = rounded(addCustomCohesionSightInput.value),
         separationSight = rounded(addCustomSeparationSightInput.value),
-        amount = rounded(addCustomAmountInput.value);
+        amount = rounded(addCustomAmountInput.value),
+        group = [];
+
     for (let _ = 0; _ < amount; _++) {
         let newBoid = new Boid();
         newBoid.size = size;
@@ -169,8 +172,11 @@ function addBoids() {
         newBoid.alignSight = alignSight;
         newBoid.cohesionSight = cohesionSight;
         newBoid.separationSight = separationSight;
-        flock.push(newBoid);
+        group.push(newBoid);
     }
+    flock.push(group);
+    groups++;
+    selectGroup.innerHTML += `<option value="${groups}">Group ${groups + 1}</option>`;
 }
 
 // Default P5.js functions
@@ -185,28 +191,28 @@ function setup() {
     // Set sliders to default
     let defaultValues = new Boid();
 
-    // Global reset
-    globalColor.value = defaultValues.color;
-    globalSizeSlider.value = defaultValues.size;
-    globalForceSlider.value = defaultValues.force;
-    globalSpeedSlider.value = defaultValues.speed;
-    globalAlignSightSlider.value = defaultValues.alignSight;
-    globalCohesionSightSlider.value = defaultValues.cohesionSight;
-    globalSeparationSightSlider.value = defaultValues.separationSight;
+    // Group reset
+    groupColor.value = defaultValues.color;
+    groupSizeSlider.value = defaultValues.size;
+    groupForceSlider.value = defaultValues.force;
+    groupSpeedSlider.value = defaultValues.speed;
+    groupAlignSightSlider.value = defaultValues.alignSight;
+    groupCohesionSightSlider.value = defaultValues.cohesionSight;
+    groupSeparationSightSlider.value = defaultValues.separationSight;
 
-    globalSizeInput.value = defaultValues.size;
-    globalForceInput.value = defaultValues.force;
-    globalSpeedInput.value = defaultValues.speed;
-    globalAlignSightInput.value = defaultValues.alignSight;
-    globalCohesionSightInput.value = defaultValues.cohesionSight;
-    globalSeparationSightInput.value = defaultValues.separationSight;
+    groupSizeInput.value = defaultValues.size;
+    groupForceInput.value = defaultValues.force;
+    groupSpeedInput.value = defaultValues.speed;
+    groupAlignSightInput.value = defaultValues.alignSight;
+    groupCohesionSightInput.value = defaultValues.cohesionSight;
+    groupSeparationSightInput.value = defaultValues.separationSight;
 
-    globalSizeValueText.innerHTML = defaultValues.size;
-    globalForceValueText.innerHTML = defaultValues.force;
-    globalSpeedValueText.innerHTML = defaultValues.speed;
-    globalAlignSightValueText.innerHTML = defaultValues.alignSight;
-    globalCohesionSightValueText.innerHTML = defaultValues.cohesionSight;
-    globalSeparationSightValueText.innerHTML = defaultValues.separationSight;
+    groupSizeValueText.innerHTML = defaultValues.size;
+    groupForceValueText.innerHTML = defaultValues.force;
+    groupSpeedValueText.innerHTML = defaultValues.speed;
+    groupAlignSightValueText.innerHTML = defaultValues.alignSight;
+    groupCohesionSightValueText.innerHTML = defaultValues.cohesionSight;
+    groupSeparationSightValueText.innerHTML = defaultValues.separationSight;
 
     addCustomColor.value = defaultValues.color;
     addCustomSizeSlider.value = defaultValues.size;
@@ -233,11 +239,16 @@ function setup() {
     addCustomCohesionSightValueText.innerHTML = defaultValues.cohesionSight;
     addCustomSeparationSightValueText.innerHTML = defaultValues.separationSight;
 
+    groups = 0;
+    selectGroup.innerHTML = `<option value="${groups}">Group ${groups + 1}</option>`;
+
     // Generate a flock
     flock = [];
+    group = [];
     for (let i = 0; i < amountBoids; i++) {
-        flock.push(new Boid());
+        group.push(new Boid());
     }
+    flock.push(group);
 }
 
 function draw() {
@@ -245,109 +256,117 @@ function draw() {
 
     // Calculate updates in movement
     for (let i = 0; i < flock.length; i++) {
-        let boid = flock[i];
-        boid.wrapAround();
-        boid.flock(flock);
+        group = flock[i];
+        for (let j = 0; j < group.length; j++) {
+            let boid = group[j];
+            boid.wrapAround();
+            boid.flock(flock);
+        }
     }
 
     // Update and move the boids
     for (let i = 0; i < flock.length; i++) {
-        let boid = flock[i];
-        boid.updateMovement();
-        boid.draw(debug);
+        group = flock[i];
+        for (let j = 0; j < group.length; j++) {
+            let boid = group[j];
+            boid.updateMovement();
+            boid.draw(debug);
+        }
     }
 }
 
 // Event listener handlers
 
-// Global settings
+// Group settings
 
 // Color
-function globalColorEventHandler(event) {
-    let globalColorValue = event.target.value;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "color", `"${globalColorValue}"`);
+function groupColorEventHandler(event) {
+    let groupColorValue = event.target.value,
+        groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "color", `"${groupColorValue}"`);
     }
 }
 
 // Size
-function globalSizeEventHandler(event) {
-    let globalSizeValue = rounded(event.target.value);
-    globalSizeValueText.innerHTML = globalSizeValue;
-    globalSizeSlider.value = globalSizeValue;
-    globalSizeInput.value = globalSizeValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "size", globalSizeValue);
+function groupSizeEventHandler(event) {
+    let groupSizeValue = rounded(event.target.value);
+    groupSizeValueText.innerHTML = groupSizeValue;
+    groupSizeSlider.value = groupSizeValue;
+    groupSizeInput.value = groupSizeValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "size", groupSizeValue);
     }
 }
 
 // Force
-function globalForceEventHandler(event) {
-    let globalForceValue = rounded(event.target.value);
-    globalForceValueText.innerHTML = globalForceValue;
-    globalForceSlider.value = globalForceValue;
-    globalForceInput.value = globalForceValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "force", globalForceValue);
+function groupForceEventHandler(event) {
+    let groupForceValue = rounded(event.target.value);
+    groupForceValueText.innerHTML = groupForceValue;
+    groupForceSlider.value = groupForceValue;
+    groupForceInput.value = groupForceValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "force", groupForceValue);
     }
 }
 
 // Speed
-function globalSpeedEventHandler(event) {
-    let globalSpeedValue = rounded(event.target.value);
-    globalSpeedValueText.innerHTML = globalSpeedValue;
-    globalSpeedSlider.value = globalSpeedValue;
-    globalSpeedInput.value = globalSpeedValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "speed", globalSpeedValue);
+function groupSpeedEventHandler(event) {
+    let groupSpeedValue = rounded(event.target.value);
+    groupSpeedValueText.innerHTML = groupSpeedValue;
+    groupSpeedSlider.value = groupSpeedValue;
+    groupSpeedInput.value = groupSpeedValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "speed", groupSpeedValue);
     }
 }
 
 // Align sight
-function globalAlignSightEventHandler(event) {
-    let globalAlignSightValue = rounded(event.target.value);
-    globalAlignSightValueText.innerHTML = globalAlignSightValue;
-    globalAlignSightSlider.value = globalAlignSightValue;
-    globalAlignSightInput.value = globalAlignSightValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "alignSight", globalAlignSightValue);
+function groupAlignSightEventHandler(event) {
+    let groupAlignSightValue = rounded(event.target.value);
+    groupAlignSightValueText.innerHTML = groupAlignSightValue;
+    groupAlignSightSlider.value = groupAlignSightValue;
+    groupAlignSightInput.value = groupAlignSightValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "alignSight", groupAlignSightValue);
     }
 }
 
 // Cohesion sight
-function globalCohesionSightEventHandler(event) {
-    let globalCohesionSightValue = rounded(event.target.value);
-    globalCohesionSightValueText.innerHTML = globalCohesionSightValue;
-    globalCohesionSightSlider.value = globalCohesionSightValue;
-    globalCohesionSightInput.value = globalCohesionSightValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "cohesionSight", globalCohesionSightValue);
+function groupCohesionSightEventHandler(event) {
+    let groupCohesionSightValue = rounded(event.target.value);
+    groupCohesionSightValueText.innerHTML = groupCohesionSightValue;
+    groupCohesionSightSlider.value = groupCohesionSightValue;
+    groupCohesionSightInput.value = groupCohesionSightValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "cohesionSight", groupCohesionSightValue);
     }
 }
 
-function globalSeparationSightEventHandler(event) {
-    let globalSeparationSightValue = rounded(event.target.value);
-    globalSeparationSightValueText.innerHTML = globalSeparationSightValue;
-    globalSeparationSightSlider.value = globalSeparationSightValue;
-    globalSeparationSightInput.value = globalSeparationSightValue;
-    for (let i = 0; i < flock.length; i++) {
-        boid = flock[i];
-        updateBoid(boid, "separationSight", globalSeparationSightValue);
+function groupSeparationSightEventHandler(event) {
+    let groupSeparationSightValue = rounded(event.target.value);
+    groupSeparationSightValueText.innerHTML = groupSeparationSightValue;
+    groupSeparationSightSlider.value = groupSeparationSightValue;
+    groupSeparationSightInput.value = groupSeparationSightValue;
+    groupIndex = selectGroup.value;
+    for (let i = 0; i < flock[groupIndex].length; i++) {
+        boid = flock[groupIndex][i];
+        updateBoid(boid, "separationSight", groupSeparationSightValue);
     }
 }
 
 // Add custom
-
-// Color
-function addCustomColorEventHandler(event) {
-    let addCustomColorValue = event.target.value;
-}
 
 // Size
 function addCustomSizeEventHandler(event) {
@@ -407,51 +426,48 @@ function addCustomSeparationSightEventHandler(event) {
 
 // Event listeners
 
-// Global settings
+// Group settings
 
 // Color
-globalColor.addEventListener("change", (event) => globalColorEventHandler(event));
+groupColor.addEventListener("change", (event) => groupColorEventHandler(event));
 
 // Size
-globalSizeSlider.addEventListener("change", (event) => globalSizeEventHandler(event));
-globalSizeInput.addEventListener("change", (event) => globalSizeEventHandler(event));
+groupSizeSlider.addEventListener("change", (event) => groupSizeEventHandler(event));
+groupSizeInput.addEventListener("change", (event) => groupSizeEventHandler(event));
 
 // Force
-globalForceSlider.addEventListener("change", (event) => globalForceEventHandler(event));
-globalForceInput.addEventListener("change", (event) => globalForceEventHandler(event));
+groupForceSlider.addEventListener("change", (event) => groupForceEventHandler(event));
+groupForceInput.addEventListener("change", (event) => groupForceEventHandler(event));
 
 // Speed
-globalSpeedSlider.addEventListener("change", (event) => globalSpeedEventHandler(event));
-globalSpeedInput.addEventListener("change", (event) => globalSpeedEventHandler(event));
+groupSpeedSlider.addEventListener("change", (event) => groupSpeedEventHandler(event));
+groupSpeedInput.addEventListener("change", (event) => groupSpeedEventHandler(event));
 
 // Align sight
-globalAlignSightSlider.addEventListener("change", (event) =>
-    globalAlignSightEventHandler(event),
+groupAlignSightSlider.addEventListener("change", (event) =>
+    groupAlignSightEventHandler(event),
 );
-globalAlignSightInput.addEventListener("change", (event) =>
-    globalAlignSightEventHandler(event),
+groupAlignSightInput.addEventListener("change", (event) =>
+    groupAlignSightEventHandler(event),
 );
 
 // Cohesion sight
-globalCohesionSightSlider.addEventListener("change", (event) =>
-    globalCohesionSightEventHandler(event),
+groupCohesionSightSlider.addEventListener("change", (event) =>
+    groupCohesionSightEventHandler(event),
 );
-globalCohesionSightInput.addEventListener("change", (event) =>
-    globalCohesionSightEventHandler(event),
+groupCohesionSightInput.addEventListener("change", (event) =>
+    groupCohesionSightEventHandler(event),
 );
 
 // SeparationSight
-globalSeparationSightSlider.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
+groupSeparationSightSlider.addEventListener("change", (event) =>
+    groupSeparationSightEventHandler(event),
 );
-globalSeparationSightInput.addEventListener("change", (event) =>
-    globalSeparationSightEventHandler(event),
+groupSeparationSightInput.addEventListener("change", (event) =>
+    groupSeparationSightEventHandler(event),
 );
 
 // Add custom settings
-
-// Color
-addCustomColor.addEventListener("change", (event) => addCustomColorEventHandler(event));
 
 // Size
 addCustomSizeSlider.addEventListener("change", (event) =>

@@ -59,7 +59,12 @@ class Boid {
         // Loop over all boids in the flock
         for (let i = 0; i < boids.length; i++) {
             let other = boids[i],
-                distance = dist(this.position.x, this.position.y, other.position.x, other.position.y);
+                distance = dist(
+                    this.position.x,
+                    this.position.y,
+                    other.position.x,
+                    other.position.y,
+                );
 
             // If other boid in sight do math
             if (this != other) {
@@ -121,7 +126,10 @@ class Boid {
     }
 
     flock(boids) {
-        this.acceleration.add(this.calculateFlock(boids));
+        for (let i = 0; i < boids.length; i++) {
+            let group = boids[i];
+            this.acceleration.add(this.calculateFlock(group));
+        }
     }
 
     // Draw the boid on the canvas
@@ -132,7 +140,12 @@ class Boid {
 
             // Visualize velocity
             stroke([255, 0, 0]);
-            line(this.position.x, this.position.y, this.position.x + this.velocity.x * 10, this.position.y + this.velocity.y * 10);
+            line(
+                this.position.x,
+                this.position.y,
+                this.position.x + this.velocity.x * 10,
+                this.position.y + this.velocity.y * 10,
+            );
 
             // Visualize align sight
             stroke([255, 255, 0]);
@@ -140,11 +153,21 @@ class Boid {
 
             // Visualize cohesion sight
             stroke([255, 255, 255]);
-            ellipse(this.position.x, this.position.y, this.cohesionSight, this.cohesionSight);
+            ellipse(
+                this.position.x,
+                this.position.y,
+                this.cohesionSight,
+                this.cohesionSight,
+            );
 
             // Visualize separation sight
             stroke([0, 255, 255]);
-            ellipse(this.position.x, this.position.y, this.separationSight, this.separationSight);
+            ellipse(
+                this.position.x,
+                this.position.y,
+                this.separationSight,
+                this.separationSight,
+            );
         }
 
         stroke(this.color);
