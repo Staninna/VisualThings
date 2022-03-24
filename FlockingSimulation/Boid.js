@@ -1,6 +1,6 @@
 class Boid {
     constructor(
-        forge = 0.2,
+        force = 0.2,
         speed = 2.0,
 
         alignSight = 50,
@@ -16,7 +16,7 @@ class Boid {
         this.acceleration = createVector();
 
         // Movement forges
-        this.force = forge;
+        this.force = force;
         this.speed = speed;
 
         // Sight
@@ -157,6 +157,6 @@ class Boid {
         this.position.add(this.velocity);
         this.velocity.add(this.acceleration);
         this.velocity.limit(this.speed);
-        this.acceleration.mult(0);
+        this.acceleration = createVector();
     }
 }
