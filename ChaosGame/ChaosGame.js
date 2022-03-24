@@ -154,4 +154,5 @@ function draw() {
     }
 }
 
-// https://en.wikipedia.org/wiki/Chaos_game
+// TODO add more patterns https://en.wikipedia.org/wiki/Chaos_game
+// TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
