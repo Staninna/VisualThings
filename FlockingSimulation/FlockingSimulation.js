@@ -19,7 +19,8 @@ let amountBoids = 100,
 
 // Settings interactions
 let simulationContainer = document.getElementById("simulationContainer"),
-    optionsGlobal = document.getElementById("global");
+    optionsGlobal = document.getElementById("global"),
+    playOneFrame = document.getElementById("1Frame");
 
 // Settings
 
@@ -54,9 +55,13 @@ let globalCohesionSightSlider = document.getElementById("globalCohesionSightSlid
     globalCohesionSightValueText = document.getElementById("globalCohesionSightValue");
 
 // SeparationSight
-let globalSeparationSightSlider = document.getElementById("globalSeparationSightSlider"),
+let globalSeparationSightSlider = document.getElementById(
+        "globalSeparationSightSlider",
+    ),
     globalSeparationSightInput = document.getElementById("globalSeparationSightInput"),
-    globalSeparationSightValueText = document.getElementById("globalSeparationSightValue");
+    globalSeparationSightValueText = document.getElementById(
+        "globalSeparationSightValue",
+    );
 
 // Add custom settings
 
@@ -84,14 +89,26 @@ let addCustomAlignSightSlider = document.getElementById("addCustomAlignSightSlid
     addCustomAlignSightValueText = document.getElementById("addCustomAlignSightValue");
 
 // CohesionSight
-let addCustomCohesionSightSlider = document.getElementById("addCustomCohesionSightSlider"),
-    addCustomCohesionSightInput = document.getElementById("addCustomCohesionSightInput"),
-    addCustomCohesionSightValueText = document.getElementById("addCustomCohesionSightValue");
+let addCustomCohesionSightSlider = document.getElementById(
+        "addCustomCohesionSightSlider",
+    ),
+    addCustomCohesionSightInput = document.getElementById(
+        "addCustomCohesionSightInput",
+    ),
+    addCustomCohesionSightValueText = document.getElementById(
+        "addCustomCohesionSightValue",
+    );
 
 // SeparationSight
-let addCustomSeparationSightSlider = document.getElementById("addCustomSeparationSightSlider"),
-    addCustomSeparationSightInput = document.getElementById("addCustomSeparationSightInput"),
-    addCustomSeparationSightValueText = document.getElementById("addCustomSeparationSightValue");
+let addCustomSeparationSightSlider = document.getElementById(
+        "addCustomSeparationSightSlider",
+    ),
+    addCustomSeparationSightInput = document.getElementById(
+        "addCustomSeparationSightInput",
+    ),
+    addCustomSeparationSightValueText = document.getElementById(
+        "addCustomSeparationSightValue",
+    );
 
 // Amount
 let addCustomAmountSlider = document.getElementById("addCustomAmountSlider"),
@@ -116,9 +133,11 @@ function pauseRender(event) {
     if (action === "Pause") {
         noLoop();
         event.target.innerHTML = "Play";
+        playOneFrame.style.display = "";
     } else if (action === "Play") {
         loop();
         event.target.innerHTML = "Pause";
+        playOneFrame.style.display = "none";
     }
 }
 
@@ -406,16 +425,28 @@ globalSpeedSlider.addEventListener("change", (event) => globalSpeedEventHandler(
 globalSpeedInput.addEventListener("change", (event) => globalSpeedEventHandler(event));
 
 // Align sight
-globalAlignSightSlider.addEventListener("change", (event) => globalAlignSightEventHandler(event));
-globalAlignSightInput.addEventListener("change", (event) => globalAlignSightEventHandler(event));
+globalAlignSightSlider.addEventListener("change", (event) =>
+    globalAlignSightEventHandler(event),
+);
+globalAlignSightInput.addEventListener("change", (event) =>
+    globalAlignSightEventHandler(event),
+);
 
 // Cohesion sight
-globalCohesionSightSlider.addEventListener("change", (event) => globalCohesionSightEventHandler(event));
-globalCohesionSightInput.addEventListener("change", (event) => globalCohesionSightEventHandler(event));
+globalCohesionSightSlider.addEventListener("change", (event) =>
+    globalCohesionSightEventHandler(event),
+);
+globalCohesionSightInput.addEventListener("change", (event) =>
+    globalCohesionSightEventHandler(event),
+);
 
 // SeparationSight
-globalSeparationSightSlider.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
-globalSeparationSightInput.addEventListener("change", (event) => globalSeparationSightEventHandler(event));
+globalSeparationSightSlider.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
+globalSeparationSightInput.addEventListener("change", (event) =>
+    globalSeparationSightEventHandler(event),
+);
 
 // Add custom settings
 
@@ -423,35 +454,64 @@ globalSeparationSightInput.addEventListener("change", (event) => globalSeparatio
 addCustomColor.addEventListener("change", (event) => addCustomColorEventHandler(event));
 
 // Size
-addCustomSizeSlider.addEventListener("change", (event) => addCustomSizeEventHandler(event));
-addCustomSizeInput.addEventListener("change", (event) => addCustomSizeEventHandler(event));
+addCustomSizeSlider.addEventListener("change", (event) =>
+    addCustomSizeEventHandler(event),
+);
+addCustomSizeInput.addEventListener("change", (event) =>
+    addCustomSizeEventHandler(event),
+);
 
 // Force
-addCustomForceSlider.addEventListener("change", (event) => addCustomForceEventHandler(event));
-addCustomForceInput.addEventListener("change", (event) => addCustomForceEventHandler(event));
+addCustomForceSlider.addEventListener("change", (event) =>
+    addCustomForceEventHandler(event),
+);
+addCustomForceInput.addEventListener("change", (event) =>
+    addCustomForceEventHandler(event),
+);
 
 // Speed
-addCustomSpeedSlider.addEventListener("change", (event) => addCustomSpeedEventHandler(event));
-addCustomSpeedInput.addEventListener("change", (event) => addCustomSpeedEventHandler(event));
+addCustomSpeedSlider.addEventListener("change", (event) =>
+    addCustomSpeedEventHandler(event),
+);
+addCustomSpeedInput.addEventListener("change", (event) =>
+    addCustomSpeedEventHandler(event),
+);
 
 // Amount
-addCustomAmountSlider.addEventListener("change", (event) => addCustomAmountEventHandler(event));
-addCustomAmountInput.addEventListener("change", (event) => addCustomAmountEventHandler(event));
+addCustomAmountSlider.addEventListener("change", (event) =>
+    addCustomAmountEventHandler(event),
+);
+addCustomAmountInput.addEventListener("change", (event) =>
+    addCustomAmountEventHandler(event),
+);
 
 // Align sight
-addCustomAlignSightSlider.addEventListener("change", (event) => addCustomAlignSightEventHandler(event));
-addCustomAlignSightInput.addEventListener("change", (event) => addCustomAlignSightEventHandler(event));
+addCustomAlignSightSlider.addEventListener("change", (event) =>
+    addCustomAlignSightEventHandler(event),
+);
+addCustomAlignSightInput.addEventListener("change", (event) =>
+    addCustomAlignSightEventHandler(event),
+);
 
 // Cohesion sight
-addCustomCohesionSightSlider.addEventListener("change", (event) => addCustomCohesionSightEventHandler(event));
-addCustomCohesionSightInput.addEventListener("change", (event) => addCustomCohesionSightEventHandler(event));
+addCustomCohesionSightSlider.addEventListener("change", (event) =>
+    addCustomCohesionSightEventHandler(event),
+);
+addCustomCohesionSightInput.addEventListener("change", (event) =>
+    addCustomCohesionSightEventHandler(event),
+);
 
 // SeparationSight
-addCustomSeparationSightSlider.addEventListener("change", (event) => addCustomSeparationSightEventHandler(event));
-addCustomSeparationSightInput.addEventListener("change", (event) => addCustomSeparationSightEventHandler(event));
+addCustomSeparationSightSlider.addEventListener("change", (event) =>
+    addCustomSeparationSightEventHandler(event),
+);
+addCustomSeparationSightInput.addEventListener("change", (event) =>
+    addCustomSeparationSightEventHandler(event),
+);
 
 // TODO add mouse interaction (If possible)
 // TODO add walls of some kind
 // TODO add tile system
 // TODO add parameters in the url bar ?speed=x with export button
-// TODO add way to modify boids and add X amount of boid with X variables
+// TODO add custom boids to groups instead of 1 flock
+// TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
