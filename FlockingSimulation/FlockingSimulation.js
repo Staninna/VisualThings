@@ -23,7 +23,7 @@ let amountBoids = 100,
 let simulationContainer = document.getElementById("simulationContainer"),
     optionsGroup = document.getElementById("group"),
     playOneFrame = document.getElementById("1Frame"),
-    selectGroup = document.getElementById("selectGroup");
+    groupSelect = document.getElementById("groupSelect");
 
 // Settings
 
@@ -176,7 +176,7 @@ function addBoids() {
     }
     flock.push(group);
     groups++;
-    selectGroup.innerHTML += `<option value="${groups}">Group ${groups + 1}</option>`;
+    groupSelect.innerHTML += `<option value="${groups}">Group ${groups + 1}</option>`;
 }
 
 // Default P5.js functions
@@ -240,7 +240,7 @@ function setup() {
     addCustomSeparationSightValueText.innerHTML = defaultValues.separationSight;
 
     groups = 0;
-    selectGroup.innerHTML = `<option value="${groups}">Group ${groups + 1}</option>`;
+    groupSelect.innerHTML = `<option value="${groups}">Group ${groups + 1}</option>`;
 
     // Generate a flock
     flock = [];
@@ -279,10 +279,34 @@ function draw() {
 
 // Group settings
 
+// Select
+function groupSelectEventHandler(event) {
+    values = flock[event.target.value][0];
+    groupColor.value = values.color;
+    groupSizeValueText.innerHTML = values.size;
+    groupForceValueText.innerHTML = values.force;
+    groupSpeedValueText.innerHTML = values.speed;
+    groupAlignSightValueText.innerHTML = values.alignSight;
+    groupCohesionSightValueText.innerHTML = values.cohesionSight;
+    groupSeparationSightValueText.innerHTML = values.separationSight;
+    groupSizeSlider.value = values.size;
+    groupForceSlider.value = values.force;
+    groupSpeedSlider.value = values.speed;
+    groupAlignSightSlider.value = values.alignSight;
+    groupCohesionSightSlider.value = values.cohesionSight;
+    groupSeparationSightSlider.value = values.separationSight;
+    groupSizeInput.value = values.size;
+    groupForceInput.value = values.force;
+    groupSpeedInput.value = values.speed;
+    groupAlignSightInput.value = values.alignSight;
+    groupCohesionSightInput.value = values.cohesionSight;
+    groupSeparationSightInput.value = values.separationSight;
+}
+
 // Color
 function groupColorEventHandler(event) {
     let groupColorValue = event.target.value,
-        groupIndex = selectGroup.value;
+        groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "color", `"${groupColorValue}"`);
@@ -295,7 +319,7 @@ function groupSizeEventHandler(event) {
     groupSizeValueText.innerHTML = groupSizeValue;
     groupSizeSlider.value = groupSizeValue;
     groupSizeInput.value = groupSizeValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "size", groupSizeValue);
@@ -308,7 +332,7 @@ function groupForceEventHandler(event) {
     groupForceValueText.innerHTML = groupForceValue;
     groupForceSlider.value = groupForceValue;
     groupForceInput.value = groupForceValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "force", groupForceValue);
@@ -321,7 +345,7 @@ function groupSpeedEventHandler(event) {
     groupSpeedValueText.innerHTML = groupSpeedValue;
     groupSpeedSlider.value = groupSpeedValue;
     groupSpeedInput.value = groupSpeedValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "speed", groupSpeedValue);
@@ -334,7 +358,7 @@ function groupAlignSightEventHandler(event) {
     groupAlignSightValueText.innerHTML = groupAlignSightValue;
     groupAlignSightSlider.value = groupAlignSightValue;
     groupAlignSightInput.value = groupAlignSightValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "alignSight", groupAlignSightValue);
@@ -347,7 +371,7 @@ function groupCohesionSightEventHandler(event) {
     groupCohesionSightValueText.innerHTML = groupCohesionSightValue;
     groupCohesionSightSlider.value = groupCohesionSightValue;
     groupCohesionSightInput.value = groupCohesionSightValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "cohesionSight", groupCohesionSightValue);
@@ -359,7 +383,7 @@ function groupSeparationSightEventHandler(event) {
     groupSeparationSightValueText.innerHTML = groupSeparationSightValue;
     groupSeparationSightSlider.value = groupSeparationSightValue;
     groupSeparationSightInput.value = groupSeparationSightValue;
-    groupIndex = selectGroup.value;
+    groupIndex = groupSelect.value;
     for (let i = 0; i < flock[groupIndex].length; i++) {
         boid = flock[groupIndex][i];
         updateBoid(boid, "separationSight", groupSeparationSightValue);
@@ -427,6 +451,9 @@ function addCustomSeparationSightEventHandler(event) {
 // Event listeners
 
 // Group settings
+
+// Select
+groupSelect.addEventListener("change", (event) => groupSelectEventHandler(event));
 
 // Color
 groupColor.addEventListener("change", (event) => groupColorEventHandler(event));
@@ -529,5 +556,4 @@ addCustomSeparationSightInput.addEventListener("change", (event) =>
 // TODO add walls of some kind
 // TODO add tile system
 // TODO add parameters in the url bar ?speed=x with export button
-// TODO add custom boids to groups instead of 1 flock
 // TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
