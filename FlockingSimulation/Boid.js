@@ -85,6 +85,7 @@ class Boid {
                     let difference = p5.Vector.sub(this.position, other.position);
                     difference.div(distance * distance);
                     separationSteering.add(difference);
+                    separationTotal++;
                 }
                 total++;
             }
@@ -111,7 +112,7 @@ class Boid {
 
             if (separationTotal > 0) {
                 // separation
-                separationSteering.div(total);
+                separationSteering.div(separationTotal);
                 separationSteering.setMag(this.speed);
                 separationSteering.sub(this.velocity);
                 separationSteering.limit(this.force);
