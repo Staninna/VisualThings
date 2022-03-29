@@ -557,3 +557,4 @@ addCustomSeparationSightInput.addEventListener("change", (event) =>
 // TODO add tile system
 // TODO add parameters in the url bar ?speed=x with export button
 // TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
+// TODO add Classes (enemy/boid) If class of other is enemy just separate don't align nor cohesion
