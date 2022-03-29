@@ -301,6 +301,25 @@ function groupSelectEventHandler(event) {
     groupAlignSightInput.value = values.alignSight;
     groupCohesionSightInput.value = values.cohesionSight;
     groupSeparationSightInput.value = values.separationSight;
+    addCustomColor.value = values.color;
+    addCustomSizeValueText.innerHTML = values.size;
+    addCustomForceValueText.innerHTML = values.force;
+    addCustomSpeedValueText.innerHTML = values.speed;
+    addCustomAlignSightValueText.innerHTML = values.alignSight;
+    addCustomCohesionSightValueText.innerHTML = values.cohesionSight;
+    addCustomSeparationSightValueText.innerHTML = values.separationSight;
+    addCustomSizeSlider.value = values.size;
+    addCustomForceSlider.value = values.force;
+    addCustomSpeedSlider.value = values.speed;
+    addCustomAlignSightSlider.value = values.alignSight;
+    addCustomCohesionSightSlider.value = values.cohesionSight;
+    addCustomSeparationSightSlider.value = values.separationSight;
+    addCustomSizeInput.value = values.size;
+    addCustomForceInput.value = values.force;
+    addCustomSpeedInput.value = values.speed;
+    addCustomAlignSightInput.value = values.alignSight;
+    addCustomCohesionSightInput.value = values.cohesionSight;
+    addCustomSeparationSightInput.value = values.separationSight;
 }
 
 // Color
@@ -557,3 +576,5 @@ addCustomSeparationSightInput.addEventListener("change", (event) =>
 // TODO add tile system
 // TODO add parameters in the url bar ?speed=x with export button
 // TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
+// TODO add amount slider to group settings
+// TODO add classes (enemy/boid) to boids If class of other is enemy just separate don't align nor cohesion

@@ -67,3 +67,5 @@ function draw() {
         }
     }
 }
+
+// TODO add recording https://editor.p5js.org/doriclaudino/sketches/LgLw5UaBr
